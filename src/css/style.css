@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500&display=swap');
+
+body {
+    font-family: 'Work Sans', sans-serif;
+}
+
+.irOnly {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: black;
+}
+
+.timerBody {
+    display: flex;
+    justify-content: center;
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 160px;
+}
+
+.time {
+    flex-grow: 1;
+
+    /* 위에 숫자 크기 */
+    font-size: 128px;
+    font-weight: 200;
+    color: white;
+}
+
+.desc {
+    /* 밑에 글자 크기 */
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -1px;
+    color: rgba(118, 118, 118, 1);
+
+    margin-top: 8px;
+}
+
+.timerBody > li + li {
+    margin-left: 40px;
+}
+
+.calendar {
+    width: 20px;
+    height: 20px;
+    background-color: black;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+}
