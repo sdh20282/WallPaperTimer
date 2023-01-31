@@ -4,6 +4,10 @@ body {
     font-family: 'Work Sans', sans-serif;
 }
 
+button {
+    cursor: pointer;
+}
+
 .irOnly {
     position: absolute;
     clip: rect(0 0 0 0);
@@ -30,7 +34,7 @@ body {
     justify-content: center;
 }
 
-li {
+.timerBody li {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -58,16 +62,154 @@ li {
     margin-top: 8px;
 }
 
-.timerBody > li + li {
+.timerBody>li+li {
     margin-left: 40px;
 }
 
-.calendar {
-    width: 20px;
-    height: 20px;
-    background-color: black;
-
+.calendarButton {
     position: absolute;
     top: 0;
     right: 0;
+
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    /* background-color: aqua; */
+}
+
+.calendarBackground {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendarBody {
+    width: 600px;
+
+    background-color: white;
+    background-color: black
+}
+
+.calendarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 78px;
+}
+
+.calendarTitle {
+    width: 300px;
+    color: white;
+    text-align: center;
+    line-height: 1;
+}
+
+.calendarNavigationButton {
+    display: flex;
+    background-color: black;
+}
+
+.prevMonth,
+.nextMonth {
+    display: block;
+    width: 50px;
+    height: 78px;
+    font-size: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.prevMonth::before,
+.nextMonth::before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid white;
+    border-width: 3px 3px 0 0;
+    transition: border 0.1s;
+}
+
+.prevMonth::before {
+    transform: rotate(-135deg);
+}
+
+.nextMonth::before {
+    transform: rotate(45deg);
+}
+
+.calendarWrapper {
+    padding-top: 40px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.calendarWrapper::after {
+    top: 368px;
+}
+
+.days {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid white;
+}
+
+.day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% / 7);
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.day p {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+.day:nth-child(7n + 1) {
+    color: #ed2a61;
+}
+
+.day:nth-child(7n) {
+    color: #3c6ffa;
+}
+
+.today {
+    background: #aaa;
+}
+
+.dates {
+    display: flex;
+    flex-flow: wrap;
+    height: 300px;
+}
+
+.dates li {
+    line-height: 50px;
+}
+
+.dayButton {
+    color: inherit;
+    font-size: inherit;
+    background-color: inherit;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.day.disable {
+    color: #666;
 }
