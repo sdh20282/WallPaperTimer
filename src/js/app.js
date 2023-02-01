@@ -1,17 +1,20 @@
-// var now = new Date()
-// var birth = new Date("1998-9-7")
-// var year_gap = now.getYear() - birth.getYear()
-// var day_gap = now.getDay() - birth.getDay()
-// var total_day = day_gap + year_gap * 365
-// var hour_gap = now.getHours() - birth.getHours()
-// var min_gap = now.getMinutes() - birth.getMinutes()
-// var sec_gap = now.getSeconds() - birth.getSeconds()
+const day = document.querySelector('#days');
+const hour = document.querySelector('#hours');
+const minute = document.querySelector('#minutes');
+const second = document.querySelector('#seconds');
 
-// document.querySelector('#days').textContent = total_day;
-// document.querySelector('#hours').textContent = hour_gap;
-// document.querySelector('#minutes').textContent = min_gap;
-// document.querySelector('#seconds').textContent = sec_gap;
+let timerId;
+const daySecond = 24 * 60 * 60;
+const hourSecond = 60 * 60;
+const minuteSecond = 60;
 
+const addZero = (number) => {
+    if (number < 10) {
+        return '0' + number;
+    }
+
+    return number;
+}
 
 const renderCalendar = ({ thisMonth, today, currentYear, currentMonth, currentDate }) => {
     currentYear = thisMonth.getFullYear();
@@ -31,7 +34,7 @@ const renderCalendar = ({ thisMonth, today, currentYear, currentMonth, currentDa
     const calendar = document.querySelector('.dates');
     calendar.innerHTML = '';
 
-    for (let i = prevDate - prevDay + 1; i <= prevDate; i++) {
+    for (let i = prevDate - prevDay; i <= prevDate; i++) {
         const li = document.createElement('li');
         const button = document.createElement('button');
 
@@ -59,14 +62,19 @@ const renderCalendar = ({ thisMonth, today, currentYear, currentMonth, currentDa
         button.textContent = i;
 
         button.addEventListener('click', async (e) => {
-            console.log(e.target.dataset.time);
-            // startTimer();
+            localStorage.setItem('targetDate', e.target.dataset.time);
+            document.querySelector('.calendarBackground').style.display = 'none';
+            clearInterval(timerId);
+
+            startTimer();
         })
 
         calendar.appendChild(li);
     }
+
     // 다음달
-    for (let i = 1; i <= (7 - nextDay == 7 ? 0 : 7 - nextDay); i++) {
+    for (let i = 1; i <= (7 - (nextDay + 1) == 7 ? 0 : 7 - (nextDay + 1)); i++) {
+
         const li = document.createElement('li');
         const button = document.createElement('button');
 
@@ -102,18 +110,64 @@ const calendarInit = () => {
 
     ({ currentYear, currentMonth, currentDate } = renderCalendar({ thisMonth: thisMonth, today: today, currentYear: currentYear, currentMonth: currentMonth, currentDate: currentDate }));
 
-    document.querySelector('.prevMonth').addEventListener('click', () => {
+    const prevButton = document.querySelector('.prevMonth');
+    const nextButton = document.querySelector('.nextMonth');
+    let calendarId;
+
+    prevButton.addEventListener('click', () => {
         thisMonth = new Date(currentYear, currentMonth - 1, 1);
         ({ currentYear, currentMonth, currentDate } = renderCalendar({ thisMonth: thisMonth, today: today, currentYear: currentYear, currentMonth: currentMonth, currentDate: currentDate }));
     });
 
-    document.querySelector('.nextMonth').addEventListener('click', () => {
+    prevButton.addEventListener('mousedown', (e) => {
+        calendarId = setInterval(() => {
+            e.target.click();
+        }, 80);
+    });
+
+    prevButton.addEventListener('mouseup', (e) => {
+        clearInterval(calendarId);
+    });
+
+    nextButton.addEventListener('click', () => {
         thisMonth = new Date(currentYear, currentMonth + 1, 1);
         ({ currentYear, currentMonth, currentDate } = renderCalendar({ thisMonth: thisMonth, today: today, currentYear: currentYear, currentMonth: currentMonth, currentDate: currentDate }));
+    });
+
+    nextButton.addEventListener('mousedown', (e) => {
+        calendarId = setInterval(() => {
+            e.target.click();
+        }, 80);
+    });
+
+    nextButton.addEventListener('mouseup', (e) => {
+        clearInterval(calendarId);
     });
 }
 
 const startTimer = async () => {
+    if (!localStorage.getItem('targetDate')) {
+        console.log('hi');
+        return;
+    }
+
+    let target = localStorage.getItem('targetDate');
+    let gap;
+
+    timerId = setInterval(() => {
+        gap = Math.abs(target - new Date().getTime()) / 1000;
+
+        day.textContent = parseInt(gap / daySecond);
+        gap = gap % daySecond;
+
+        hour.textContent = addZero(parseInt(gap / hourSecond));
+        gap = gap % hourSecond;
+
+        minute.textContent = addZero(parseInt(gap / minuteSecond));
+        gap = gap % minuteSecond;
+
+        second.textContent = addZero(parseInt(gap));
+    }, 1000);
 }
 
 window.onload = () => {
