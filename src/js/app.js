@@ -147,7 +147,6 @@ const calendarInit = () => {
 
 const startTimer = async () => {
     if (!localStorage.getItem('targetDate')) {
-        console.log('hi');
         return;
     }
 
